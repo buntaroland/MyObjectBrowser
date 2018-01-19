@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seaThings>
+  <domain>living</domain>
+  <objects>
+    <object>
+       <id>tiger</id>
+       <name>Tiger shark</name>
+       <description>With strips</description>
+       <area>Red Sea, Indian Ocean</area>
+       <eats>Turtles, fishes, swimmers</eats>
+    </object>
+    <object>
+       <id>blue</id>
+       <name>Blue shark</name>
+       <description>Longish and fast shark.</description>
+       <area>Adriatic Sea, Atlantic Ocean</area>
+    </object>
+  </objects>
+</seaThings>

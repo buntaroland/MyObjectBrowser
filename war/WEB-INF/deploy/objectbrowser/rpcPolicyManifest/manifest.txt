@@ -1,0 +1,3 @@
+# Module objectbrowser
+# RPC service class, partial path of RPC policy file
+com.ericsson.objectbrowser.client.ObjectDescriptionRecordsService, 3CBE99068CEFB141108781A93CA3F70A.gwt.rpc

@@ -1,0 +1,2 @@
+serviceClass: com.ericsson.objectbrowser.client.ObjectDescriptionRecordsService
+path: 3CBE99068CEFB141108781A93CA3F70A.gwt.rpc

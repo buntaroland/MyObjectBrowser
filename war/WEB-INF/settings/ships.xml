@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seaThings>
+  <domain>artifical</domain>
+  <objects>
+    <object>
+       <id>roosevelt</id>
+       <name>USS Theodore Roosevelt</name>
+       <description>Carrier ship</description>
+       <airplanes>F18, F35, A10</airplanes>
+    </object>    
+    <object>
+       <id>titanic</id>
+       <name>RMS Titanic</name>
+       <description>A British passenger liner</description>
+       <competition>Blue Ribbon</competition>
+    </object>
+  </objects>
+</seaThings>
