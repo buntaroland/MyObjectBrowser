@@ -120,16 +120,34 @@ public class ObjectBrowser implements EntryPoint {
     	
     	RecordList recordList = new RecordList();
     	
+    	
+    	Record idRecord = new Record(); 	
+    	idRecord.setAttribute("key", "id");
+    	idRecord.setAttribute("value", detailsDataSource.get("id"));
+    	recordList.add(idRecord);
+    	
+    	Record nameRecord = new Record(); 	
+    	nameRecord.setAttribute("key", "name");
+    	nameRecord.setAttribute("value", detailsDataSource.get("name"));
+    	recordList.add(nameRecord);
+
+    	Record descriptionRecord = new Record(); 	
+    	descriptionRecord.setAttribute("key", "description");
+    	descriptionRecord.setAttribute("value", detailsDataSource.get("description"));
+    	recordList.add(descriptionRecord);
+    	
     	for(Map.Entry<String, String> entry : detailsDataSource.entrySet()){
     		
-    		Record record = new Record();
-    		record.setAttribute("key", entry.getKey());
-    		record.setAttribute("value", entry.getValue());
-    		
-    		recordList.add(record);
-    		
+    		if(!entry.getKey().equals("id") && !entry.getKey().equals("name") && !entry.getKey().equals("description")){
+    			
+    			Record record = new Record();
+        		record.setAttribute("key", entry.getKey());
+        		record.setAttribute("value", entry.getValue());
+        		
+        		recordList.add(record);
+    			
+    		}
     	}
-    	
     	
     	Window detailsWindow = new Window();
     	detailsWindow.setHeight(200);
