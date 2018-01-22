@@ -1,2 +1,1 @@
-./sharks.xml
-./ships.xml
+./oss-core-inventory-object-model.xml
