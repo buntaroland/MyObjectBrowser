@@ -74,6 +74,7 @@ public class ObjectDescriptionRecordsImpl extends RemoteServiceServlet implement
 			for(ObjectDescription object : domain.getObjects()){
 				
 				objectNameList.add(object.getName());
+				
 			}
 			
 			resultMap.put(domain.getName(), objectNameList);
@@ -97,6 +98,7 @@ public class ObjectDescriptionRecordsImpl extends RemoteServiceServlet implement
 					resultMap.put("id", object.getId());
 					resultMap.put("name", object.getName());
 					resultMap.put("description", object.getDescription());
+					
 					resultMap.putAll(object.getOthers());
 					
 					return resultMap;
@@ -182,7 +184,8 @@ public class ObjectDescriptionRecordsImpl extends RemoteServiceServlet implement
 		         SAXParserFactory factory = SAXParserFactory.newInstance();
 		         SAXParser saxParser = factory.newSAXParser();
 		         UserHandler userhandler = new UserHandler();
-		         saxParser.parse(xmlFile, userhandler);     
+		         saxParser.parse(xmlFile, userhandler);
+		         
 		      } catch (Exception e) {
 		         e.printStackTrace();
 		      }
@@ -201,8 +204,13 @@ public class ObjectDescriptionRecordsImpl extends RemoteServiceServlet implement
 		   boolean atDescription = false;
 		   boolean atOtherParams = false;
 		   
+		   boolean idFound = false;
+		   boolean nameFound = false;
+		   boolean descriptionFound = false;
 		   boolean domainFound = false;
 		   boolean objectNameGiven = false;
+		   
+		   boolean objectsEnded = false;
 		   
 		   ObjectDescription object_data;
 		   List<ObjectDescription> objects;
@@ -224,13 +232,13 @@ public class ObjectDescriptionRecordsImpl extends RemoteServiceServlet implement
 		         objects = new ArrayList<ObjectDescription>();
 		      } else if (qName.equalsIgnoreCase(prop.getProperty("objectDescriptorTag"))) {
 		    	  atObject = true;
-		      } else if (qName.equalsIgnoreCase("id")) {
+		      } else if (atObject && qName.equalsIgnoreCase("id") && !idFound) {
 		    	  atId = true;
-		      } else if (qName.equalsIgnoreCase("name")) {
+		      } else if (atObject && qName.equalsIgnoreCase("name") && !nameFound) {
 		    	  atName = true;
-		      } else if (qName.equalsIgnoreCase("description")) {
+		      } else if (atObject && qName.equalsIgnoreCase("description") && !descriptionFound) {
 		    	  atDescription = true;
-		      } else if (atObject) {
+		      } else if (atObject && !qName.equalsIgnoreCase("id") && !qName.equalsIgnoreCase("name") && !qName.equalsIgnoreCase("description")) {
 		    	  atOtherParams = true;
 		    	  otherParamName = qName;
 		      }
@@ -241,16 +249,23 @@ public class ObjectDescriptionRecordsImpl extends RemoteServiceServlet implement
 		   String localName, String qName) throws SAXException {
 		      if (qName.equalsIgnoreCase(prop.getProperty("objectDescriptorBlockTag"))) {
 		    
-			         ObjectDescriptionRecordsImpl.this.domains.add(new ObjectDomain(domainName, objects));
-			         
+			         ObjectDescriptionRecordsImpl.this.domains.add(new ObjectDomain(domainName, objects));   
+			       			         
 			         atObjects = false;
 			         
-		      } else if (qName.equalsIgnoreCase(prop.getProperty("objectDescriptorTag"))) {
+			         objectsEnded = true;
+			         
+		      } else if (qName.equalsIgnoreCase(prop.getProperty("objectDescriptorTag")) && !objectsEnded ) {
 			         
 			         atObject = false;
 			         objectNameGiven = false;
+			         idFound = false;
+			         nameFound = false;
+			         descriptionFound = false;
+			         
 			         objects.add(object_data);
-			      }
+			         
+			         }
 		   }
 
 		   @Override
@@ -279,27 +294,29 @@ public class ObjectDescriptionRecordsImpl extends RemoteServiceServlet implement
 						  object_data.setId(new String(ch, start, length));
 						  						  
 						  atId = false;
+						  idFound = true;
 						  
 					  } else if (atName){
 						  object_data.setName(new String(ch, start, length));
 						  						  
 						  atName = false;
+						  nameFound = true;
 						  
 					  } else if (atDescription){
 						  object_data.setDescription(new String(ch, start, length));
 						  						  
 						  atDescription = false;
+						  descriptionFound = true;
 						  
 					  } else if (atOtherParams){
 						  object_data.addOther(otherParamName, new String(ch, start, length));
-						  						  
+										  						  
 						  atOtherParams = false;
-						  
-						  
+										  
 					  }
 				  }
 			  }
 		   }
-		}
+	}
 
 }
